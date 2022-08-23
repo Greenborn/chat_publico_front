@@ -1,6 +1,5 @@
 <template>
   <div class="row">
-    Footer
   </div>
 </template>
 
