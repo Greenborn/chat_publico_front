@@ -3,7 +3,7 @@
     <div class="col p-3">
 
       <div class="row">
-        <div class="col mensaje-cont">
+        <div class="col col-sm-8 col-md-9 col-xxl-10 mensaje-cont">
 
           <div class="row" v-for="(msg) in mensajes" :key="msg">
             <div class="col">
@@ -13,18 +13,7 @@
 
         </div>
 
-        <div class="col-2">
-          <div claSS="row conectados-tit">
-            <div class="col">
-              Conectados ({{online.length}})
-            </div>
-          </div>
-          <div class="row" v-for="(user) in online" :key="user">
-            <div class="col">
-              {{user}}
-            </div>
-          </div>
-        </div>
+        <ListaContactos :online="online" :datos_usuario="datos_usuario"></ListaContactos>
       </div>
 
       <div class="row mt-3">
@@ -80,6 +69,7 @@
 
 <script setup>
   import { ref, onMounted } from 'vue';
+  import ListaContactos from './ListaContactos.vue'
 
   const mensajes  = ref([])
   const conexion  = ref({})
@@ -126,7 +116,7 @@
       modal.value.mostrar = true
     }
 
-    conexion.value = new WebSocket( process.env.VUE_APP_API_URL )
+    conexion.value = new WebSocket( import.meta.env.VITE_APP_API_URL )
     
     conexion.value.onmessage = function(event) {
       let msgRec = null
@@ -190,8 +180,4 @@
   overflow-y: scroll;
 }
 
-.conectados-tit{
-  background: #198735;
-  color: #FFF;
-}
 </style>

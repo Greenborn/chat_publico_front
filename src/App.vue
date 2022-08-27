@@ -8,9 +8,9 @@
 </template>
 
 <script setup>
-  import VentanaChat from '@/components/chat/VentanaChat.vue'
-  import AppHeader from '@/components/AppHeader.vue'
-  import AppFooter from '@/components/AppFooter.vue'
+  import VentanaChat from './components/chat/VentanaChat.vue'
+  import AppHeader from './components/AppHeader.vue'
+  import AppFooter from './components/AppFooter.vue'
 
 </script>
 
