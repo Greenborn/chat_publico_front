@@ -7,6 +7,7 @@
     </div>
     <div class="row align-items-center lista-personas mt-2" 
           v-for="(user) in online" :key="user"
+          @click="ir_sala_privada(user)"
           :class="{ 'yo-connect': user == datos_usuario.nombre }">
       <div class="col-auto">
         <BootstrapIcon icon="person-circle" size="2x" />
@@ -22,7 +23,15 @@
   import { ref, onMounted } from 'vue'
 
   const props = defineProps(['online', 'datos_usuario'])
+  const emit  = defineEmits(['ir_sala_privada'])
   const conectados = ref([])
+
+  function ir_sala_privada( user ){
+    if ( user == props.datos_usuario.nombre ){
+      return
+    }
+    emit('ir_sala_privada', user)
+  }
 
   onMounted(async ()=>{
     conectados.value = props.online
@@ -33,7 +42,7 @@
 .conectados-list{
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 75vh;
+  height: 70vh;
 }
 
 .conectados-tit{
