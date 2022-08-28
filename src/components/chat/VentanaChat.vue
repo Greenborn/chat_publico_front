@@ -1,50 +1,57 @@
 <template>
   <div class="row">
-    <div class="col p-3">
+    <div class="col-12 p-2">
+<!--Tabs Salas de chat-->
+      <ul class="nav nav-tabs">
+        <li class="nav-item"
+            v-for="(chat) in chats_abiertos" :key="chat">
+          <a class="nav-link" :class="{ active: chat.activa }">
+            <span @click="click_tab(chat)">{{chat.titulo}} &nbsp;</span>
 
-      <b-tabs content-class="mt-3">
-        <b-tab 
-          v-for="(chat) in chats_abiertos" :key="chat"
-          :active="chat.activa">
-          <template #title>
-            {{chat.titulo}} &nbsp;
             <BootstrapIcon 
               v-if="chat.es_privada"
               @click="cerrar_chat(chat)"
               icon="x-circle-fill" />
-          </template>
-          <div class="row">
-          
-            <div class="col col-sm-8 col-md-9 col-xxl-10 mensaje-cont">
+          </a>
+        </li>
+      </ul>
+    </div>
+<!--Contenido Tabs-->
+    <div class="w-100"
+      v-for="(chat) in chats_abiertos" :key="chat">
+      
+      <div 
+        v-if="chat.activa"
+        class="col-12">
+        <div class="row">
+          <div class="col col-sm-8 col-md-9 col-xxl-10 mensaje-cont">
 
-              <div class="row" v-for="(msg) in chat.mensajes" :key="msg">
-                <div class="col">
-                  <span class="badge" :class="{ 'bg-secondary':msg.autor.id != datos_usuario.id, 'bg-primary': msg.autor.id == datos_usuario.id }">{{msg.autor.nombre}}:</span> {{msg.texto}}
-                </div>
+            <div class="row" v-for="(msg) in chat.mensajes" :key="msg">
+              <div class="col">
+                <span class="badge" :class="{ 'bg-secondary':msg.autor.id != datos_usuario.id, 'bg-primary': msg.autor.id == datos_usuario.id }">{{msg.autor.nombre}}:</span> {{msg.texto}}
               </div>
-
             </div>
 
-            <ListaContactos 
-              :online="chat.online" :datos_usuario="datos_usuario" @ir_sala_privada="ir_sala_privada"></ListaContactos>
           </div>
 
-          <div class="row mt-3">
-            <div class="col">
-              <b-form-input
-                    id="input-msg"
-                    v-model="chat.mensaje.texto"
-                    type="text" placeholder="Mensaje"
-                    required></b-form-input>
-            </div>
+          <ListaContactos 
+            :online="chat.online" :datos_usuario="datos_usuario" @ir_sala_privada="ir_sala_privada"></ListaContactos>
+        </div>
 
-            <div class="col-auto">
-              <b-button variant="success" @click="enviarMensaje( chat )">Enviar</b-button>
-            </div>
+        <div class="row mt-3">
+          <div class="col">
+            <b-form-input
+                  id="input-msg"
+                  v-model="chat.mensaje.texto"
+                  type="text" placeholder="Mensaje"
+                  required></b-form-input>
           </div>
 
-        </b-tab>
-      </b-tabs>
+          <div class="col-auto">
+            <b-button variant="success" @click="enviarMensaje( chat )">Enviar</b-button>
+          </div>
+        </div>
+      </div>
      
     </div>
   </div>  
@@ -105,6 +112,13 @@
 
   const conexion = ref({})
 
+  function click_tab( chat ){
+    for(let c=0; c < chats_abiertos.value.length; c++){
+      chats_abiertos.value[c].activa = false
+    }
+    chat.activa = true
+  }
+
   function cerrar_chat(chat){
     conexion.value.send( JSON.stringify( {
       accion: 'cerrar_chat',
@@ -120,6 +134,8 @@
       }
     }
     delete chats_dir.value[id]
+    
+    click_tab(chats_abiertos.value[0])
   }
 
   function ir_sala_privada( usuario ){
@@ -141,7 +157,6 @@
       id_sala_root: datos_usuario.value.id_sala,
       accion: 'registro_sala_privada'
     }
-    console.log(modelo_registro.value)
     conexion.value.send( JSON.stringify( registro ));
   }
 
@@ -229,7 +244,6 @@
           break;
 
           case 'registro_sala_privada':
-            console.log(msgRec)
             let otro_user = msgRec.iniciador
             if (msgRec.iniciador == datos_usuario.value.nombre)
               otro_user = msgRec.destino
