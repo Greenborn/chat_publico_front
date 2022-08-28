@@ -2,9 +2,11 @@
   <div class="row header-cont">
     <div class="col">
       <h1>Chat público Tandil</h1>
-      <p>Sala de chat pública y general <small>La sola permanencia en esta página implica que acepta los terminos y condiciones
-        <b>Todas las conversaciones realizadas por este medio serán grabadas como medida de seguridad, sea responsable con lo que publica</b>
-      </small></p>
+      <p>
+        <small> Esta sala solo es intermediaria en la comunicación, <b>se asume que Ud. es mayor de 18 años</b>
+          Si ese no es el caso, abandone la sala por que no hay moderación </small>
+        <b>No comparta información personal</b>
+      </p>
     </div>
   </div>
 </template>
