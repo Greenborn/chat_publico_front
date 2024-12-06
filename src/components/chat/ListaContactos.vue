@@ -42,7 +42,7 @@
 .conectados-list{
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 70vh;
+  height: 60vh;
 }
 
 .conectados-tit{

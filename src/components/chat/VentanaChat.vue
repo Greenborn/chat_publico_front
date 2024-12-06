@@ -285,7 +285,7 @@
 
 <style scoped>
 .mensaje-cont{
-  height: 70vh;
+  height: 60vh;
   border: 1px solid #000;
   overflow-x: hidden;
   overflow-y: scroll;
